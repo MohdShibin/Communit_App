@@ -3,16 +3,16 @@ import '../../components/community_chat_list_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class GroupChatListItems extends StatefulWidget {
-  const GroupChatListItems({
+class CommunityChatListPage extends StatefulWidget {
+  const CommunityChatListPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<GroupChatListItems> createState() => _GroupChatListItemsState();
+  State<CommunityChatListPage> createState() => _CommunityChatListPageState();
 }
 
-class _GroupChatListItemsState extends State<GroupChatListItems> {
+class _CommunityChatListPageState extends State<CommunityChatListPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isLoading = true;

@@ -31,7 +31,7 @@ class FriendChatListItem extends StatelessWidget {
             ),
           );
         },
-        tileColor: Color(0xffF0F4F5),
+        tileColor: const Color(0xffF0F4F5),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
         shape: RoundedRectangleBorder(

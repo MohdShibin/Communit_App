@@ -1,11 +1,7 @@
 import 'package:community_app/pages/friend_chat_pages/friend_chat_list_page.dart';
-
 import '../../components/circular_menu_button.dart';
-import '../components/community_chat_list_item.dart';
-import '../components/top_app_bar.dart';
 import 'package:flutter/material.dart';
-
-import 'community_pages/group_chat_list_items.dart';
+import 'community_pages/community_chat_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -44,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           body: const TabBarView(
             children: [
-              GroupChatListItems(),
+              CommunityChatListPage(),
               FriendChatListPage(),
             ],
           ),

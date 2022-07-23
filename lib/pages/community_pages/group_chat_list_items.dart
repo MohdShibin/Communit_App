@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../components/chat_list_item.dart';
+import '../../components/community_chat_list_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 class GroupChatListItems extends StatefulWidget {
   const GroupChatListItems({
@@ -48,14 +47,16 @@ class _GroupChatListItemsState extends State<GroupChatListItems> {
 
     return isLoading
         ? Center(
-          child: CircularProgressIndicator(),
-        ):Flexible(
-          child: ListView.builder(
-          itemCount: communityList.length,
-          itemBuilder: (context, index) {
-            return ChatListItem(communityName: communityList[index]['name'], communityChatId: communityList[index]['id']);
-          }
-      ),
-    );
+            child: CircularProgressIndicator(),
+          )
+        : Flexible(
+            child: ListView.builder(
+                itemCount: communityList.length,
+                itemBuilder: (context, index) {
+                  return CommunityChatListItem(
+                      communityName: communityList[index]['name'],
+                      communityChatId: communityList[index]['id']);
+                }),
+          );
   }
 }

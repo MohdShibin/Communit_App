@@ -41,8 +41,6 @@ class _FindFriendPageState extends State<FindFriendPage>
     }
   }
 
-  var roomId = Uuid().v1();
-
   void onSearch() async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -63,8 +61,13 @@ class _FindFriendPageState extends State<FindFriendPage>
     });
   }
 
-  getRoomId() async {
+  void onTapToChat() async {
+    //Creating a temperary roomID
+    var roomId = Uuid().v1();
+
+
     String uid = _auth.currentUser!.uid;
+    bool isExistingRoom = false;
     List roomsList = [];
     await _firestore
         .collection('users')
@@ -74,45 +77,44 @@ class _FindFriendPageState extends State<FindFriendPage>
         .then((value) {
       roomsList = value.docs;
     });
-
-    if(roomsList.isNotEmpty){
+    //checking whether there exist chatRoom between these two users
+    if (roomsList.isNotEmpty) {
       for (int i = 0; i < roomsList.length; i++) {
         if (roomsList[i]['name'] == userMap!['name']) {
           roomId = roomsList[i]['roomId'];
+          isExistingRoom = true;
+          break;
         }
       }
     }
+    //If there is not exit a chatroom between these two users.createing one.
+    if (isExistingRoom == false) {
+      await _firestore.collection('chatroom').doc(roomId).set({
+        "user1": _auth.currentUser!.displayName!,
+        "user2": userMap!['name'],
+      });
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('friend')
+          .doc(roomId)
+          .set({
+        "name": userMap!['name'],
+        "id": userMap!['uid'],
+        "roomId": roomId,
+      });
 
-  }
-
-  void onTapToChat() async {
-    getRoomId();
-    print(roomId);
-    await _firestore.collection('chatroom').doc(roomId).set({
-      "user1": _auth.currentUser!.displayName!,
-      "user2": userMap!['name'],
-    });
-    await _firestore
-        .collection('users')
-        .doc(_auth.currentUser!.uid)
-        .collection('friend')
-        .doc(roomId)
-        .set({
-      "name": userMap!['name'],
-      "id": userMap!['uid'],
-      "roomId":roomId,
-    });
-
-    await _firestore
-        .collection('users')
-        .doc(userMap!['uid'])
-        .collection('friend')
-        .doc(roomId)
-        .set({
-      "name": _auth.currentUser!.displayName!,
-      "id": _auth.currentUser!.uid,
-      "roomId":roomId,
-    });
+      await _firestore
+          .collection('users')
+          .doc(userMap!['uid'])
+          .collection('friend')
+          .doc(roomId)
+          .set({
+        "name": _auth.currentUser!.displayName!,
+        "id": _auth.currentUser!.uid,
+        "roomId": roomId,
+      });
+    }
 
     Navigator.of(context).push(
       MaterialPageRoute(

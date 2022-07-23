@@ -11,9 +11,6 @@ Future<User?> createAccount(String name, String email, String password) async {
   try {
     UserCredential userCrendetial = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-
-    print("Account created Succesfull");
-
     userCrendetial.user!.updateDisplayName(name);
 
     await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
@@ -25,7 +22,6 @@ Future<User?> createAccount(String name, String email, String password) async {
 
     return userCrendetial.user;
   } catch (e) {
-    print(e);
     return null;
   }
 }
@@ -38,7 +34,6 @@ Future<User?> logIn(String email, String password) async {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
 
-    print("Login Sucessfull");
     _firestore
         .collection('users')
         .doc(_auth.currentUser!.uid)
@@ -47,7 +42,6 @@ Future<User?> logIn(String email, String password) async {
 
     return userCredential.user;
   } catch (e) {
-    print(e);
     return null;
   }
 }

@@ -10,7 +10,7 @@ class FindFriendPage extends StatefulWidget {
 }
 
 class _FindFriendPageState extends State<FindFriendPage>
-    with WidgetsBindingObserver {
+  with WidgetsBindingObserver {
   Map<String, dynamic>? userMap;
   bool isLoading = false;
   final TextEditingController _search = TextEditingController();

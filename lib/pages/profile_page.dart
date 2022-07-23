@@ -13,11 +13,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
     getCurrentUserDetails();
   }
+
   String? name;
   String? email;
   void getCurrentUserDetails() async {
@@ -26,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       name = user['name'];
       email = user['email'];
+      isLoading = false;
     });
   }
 
@@ -34,7 +38,14 @@ class _ProfilePageState extends State<ProfilePage> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: isLoading
+          ? Center(
+              child: Container(
+                height: size.height / 20,
+                width: size.height / 20,
+                child: CircularProgressIndicator(),
+              ),
+            ):SafeArea(
         child: Column(
           children: [
             TopAppBar(

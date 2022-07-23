@@ -49,14 +49,12 @@ class _CommunityChatListPageState extends State<CommunityChatListPage> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : Flexible(
-            child: ListView.builder(
-                itemCount: communityList.length,
-                itemBuilder: (context, index) {
-                  return CommunityChatListItem(
-                      communityName: communityList[index]['name'],
-                      communityChatId: communityList[index]['id']);
-                }),
-          );
+        : ListView.builder(
+            itemCount: communityList.length,
+            itemBuilder: (context, index) {
+              return CommunityChatListItem(
+                  communityName: communityList[index]['name'],
+                  communityChatId: communityList[index]['id']);
+            });
   }
 }

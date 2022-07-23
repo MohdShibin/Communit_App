@@ -40,6 +40,7 @@ class FriendChatPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: StreamBuilder<DocumentSnapshot>(
           stream:
               _firestore.collection("users").doc(userMap['uid']).snapshots(),
@@ -66,8 +67,6 @@ class FriendChatPage extends StatelessWidget {
         children: [
           Flexible(
             child: Container(
-              // height: size.height / 1.25,
-              // width: size.width,
               child: StreamBuilder<QuerySnapshot>(
                 stream: _firestore
                     .collection('chatroom')
@@ -119,8 +118,7 @@ class FriendChatPage extends StatelessWidget {
                           )),
                     ),
                   ),
-                  IconButton(
-                      icon: Icon(Icons.send), onPressed: onSendMessage),
+                  IconButton(icon: Icon(Icons.send), onPressed: onSendMessage),
                 ],
               ),
             ),
@@ -131,17 +129,30 @@ class FriendChatPage extends StatelessWidget {
   }
 
   Widget messages(Size size, Map<String, dynamic> map, BuildContext context) {
+    String? name = _auth.currentUser!.displayName;
     return Container(
       width: size.width,
-      alignment: map['sendby'] == _auth.currentUser!.displayName
+      alignment: map['sendby'] == name
           ? Alignment.centerRight
           : Alignment.centerLeft,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
         margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.blue,
+          borderRadius: map['sendby'] == name
+              ? const BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                )
+              : const BorderRadius.only(
+                  bottomRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+          color: map['sendby'] == name
+              ? Colors.deepOrangeAccent
+              : Colors.black38,
         ),
         child: Text(
           map['message'],

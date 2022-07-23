@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
             elevation: 0.0,
             bottom: const TabBar(
               labelColor: Colors.black,
-              indicatorColor: Colors.deepOrangeAccent,
+              indicatorColor: Colors.black,
               tabs: [
                 Tab(text: 'Communities'),
                 Tab(text: 'Friends'),

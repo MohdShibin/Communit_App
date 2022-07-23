@@ -6,7 +6,8 @@ import 'community_info_page.dart';
 class CommunityChatPage extends StatelessWidget {
   final String groupChatId, communityName;
 
-  CommunityChatPage({required this.communityName, required this.groupChatId, Key? key})
+  CommunityChatPage(
+      {required this.communityName, required this.groupChatId, Key? key})
       : super(key: key);
 
   final TextEditingController _message = TextEditingController();
@@ -43,13 +44,13 @@ class CommunityChatPage extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => CommunityInfoPage(
-                    communityName: communityName,
-                    communityId: groupChatId,
+                    MaterialPageRoute(
+                      builder: (_) => CommunityInfoPage(
+                        communityName: communityName,
+                        communityId: groupChatId,
+                      ),
+                    ),
                   ),
-                ),
-              ),
               icon: Icon(Icons.more_vert)),
         ],
       ),
@@ -73,8 +74,8 @@ class CommunityChatPage extends StatelessWidget {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         Map<String, dynamic> chatMap =
-                        snapshot.data!.docs[index].data()
-                        as Map<String, dynamic>;
+                            snapshot.data!.docs[index].data()
+                                as Map<String, dynamic>;
 
                         return messageTile(size, chatMap);
                       },
@@ -112,8 +113,7 @@ class CommunityChatPage extends StatelessWidget {
                           )),
                     ),
                   ),
-                  IconButton(
-                      icon: Icon(Icons.send), onPressed: onSendMessage),
+                  IconButton(icon: Icon(Icons.send), onPressed: onSendMessage),
                 ],
               ),
             ),
@@ -135,22 +135,27 @@ class CommunityChatPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
               margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
               decoration: BoxDecoration(
-                borderRadius: chatMap['sendBy'] == _auth.currentUser!.displayName ?
-                  const BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ):const BorderRadius.only(
-                  bottomRight: Radius.circular(10),
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-                color: chatMap['sendBy'] == _auth.currentUser!.displayName ?
-                  Colors.deepOrangeAccent:Colors.black38,
+                borderRadius:
+                    chatMap['sendBy'] == _auth.currentUser!.displayName
+                        ? const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          )
+                        : const BorderRadius.only(
+                            bottomRight: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                color: chatMap['sendBy'] == _auth.currentUser!.displayName
+                    ? Colors.deepOrangeAccent
+                    : Colors.black38,
               ),
               child: Column(
-                crossAxisAlignment: chatMap['sendBy'] == _auth.currentUser!.displayName ?
-                  CrossAxisAlignment.end:CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    chatMap['sendBy'] == _auth.currentUser!.displayName
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
                 children: [
                   Text(
                     chatMap['sendBy'],

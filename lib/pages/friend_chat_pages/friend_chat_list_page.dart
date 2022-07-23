@@ -55,8 +55,6 @@ class _FriendChatListPageState extends State<FriendChatListPage> {
         });
       });
     }
-    print(friendsList);
-    print(friendUserMap);
   }
 
   @override
@@ -67,16 +65,14 @@ class _FriendChatListPageState extends State<FriendChatListPage> {
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : Flexible(
-            child: ListView.builder(
-                itemCount: friendUserMap.length,
-                itemBuilder: (context, index) {
-                  return FriendChatListItem(
-                    chatRoomId: friendsList[index]['roomId'],
-                    userMap: friendUserMap[index],
-                  );
-                }),
-          );
+        : ListView.builder(
+            itemCount: friendUserMap.length,
+            itemBuilder: (context, index) {
+              return FriendChatListItem(
+                chatRoomId: friendsList[index]['roomId'],
+                userMap: friendUserMap[index],
+              );
+            });
   }
 }
 

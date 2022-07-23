@@ -65,7 +65,6 @@ class _FindFriendPageState extends State<FindFriendPage>
     //Creating a temperary roomID
     var roomId = Uuid().v1();
 
-
     String uid = _auth.currentUser!.uid;
     bool isExistingRoom = false;
     List roomsList = [];
@@ -132,7 +131,8 @@ class _FindFriendPageState extends State<FindFriendPage>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Find Friend"),
+        title: const Text("Find Friend"),
+        backgroundColor: Colors.black,
       ),
       body: isLoading
           ? Center(
@@ -170,7 +170,10 @@ class _FindFriendPageState extends State<FindFriendPage>
                 ),
                 ElevatedButton(
                   onPressed: onSearch,
-                  child: Text("Search"),
+                  child: const Text("Search"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.deepOrangeAccent,
+                  ),
                 ),
                 SizedBox(
                   height: size.height / 30,
@@ -178,10 +181,10 @@ class _FindFriendPageState extends State<FindFriendPage>
                 userMap != null
                     ? ListTile(
                         onTap: onTapToChat,
-                        leading: Icon(Icons.person, color: Colors.black),
+                        leading: const Icon(Icons.person, color: Colors.black),
                         title: Text(
                           userMap!['name'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
@@ -192,10 +195,6 @@ class _FindFriendPageState extends State<FindFriendPage>
                     : Container(),
               ],
             ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.forward),
-        onPressed: () {},
-      ),
     );
   }
 }

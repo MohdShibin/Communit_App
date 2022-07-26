@@ -87,6 +87,7 @@ class CommunityChatPage extends StatelessWidget {
               ),
             ),
           ),
+          // TEXT FIELD
           Container(
             height: size.height / 10,
             width: size.width,

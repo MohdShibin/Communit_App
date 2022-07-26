@@ -45,53 +45,54 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: size.height / 20,
                 child: CircularProgressIndicator(),
               ),
-            ):SafeArea(
-        child: Column(
-          children: [
-            TopAppBar(
-              isIconLeft: true,
-              OnChanged: () {
-                Navigator.pop(context);
-              },
-              title: "Profile",
-              icon: Icons.arrow_back,
-            ),
-            Container(
-              height: size.height / 7,
-              width: size.height / 7,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey,
+            )
+          : SafeArea(
+              child: Column(
+                children: [
+                  TopAppBar(
+                    isIconLeft: true,
+                    OnChanged: () {
+                      Navigator.pop(context);
+                    },
+                    title: "Profile",
+                    icon: Icons.arrow_back,
+                  ),
+                  Container(
+                    height: size.height / 7,
+                    width: size.height / 7,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey,
+                    ),
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: size.width / 6,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40.0,
+                  ),
+                  Text(
+                    'Name : $name',
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Text(
+                    'Email : $email',
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-                size: size.width / 6,
-              ),
             ),
-            const SizedBox(
-              height: 40.0,
-            ),
-            Text(
-              'Name : $name',
-              style: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            Text(
-              'Email : $email',
-              style: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

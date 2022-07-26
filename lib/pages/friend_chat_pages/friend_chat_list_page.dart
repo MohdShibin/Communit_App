@@ -75,5 +75,3 @@ class _FriendChatListPageState extends State<FriendChatListPage> {
             });
   }
 }
-
-

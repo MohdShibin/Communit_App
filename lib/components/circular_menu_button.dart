@@ -1,7 +1,5 @@
-import 'package:community_app/components/add_friend_box.dart';
 import 'package:community_app/pages/community_pages/select_members_page.dart';
-import 'package:community_app/pages/friend_chat_pages/find_friend_page.dart';
-import 'package:community_app/pages/friend_chat_pages/friend_chat_page.dart';
+import 'package:community_app/pages/friend_chat_pages/Match_friend_Page.dart';
 import 'package:flutter/material.dart';
 import '../pages/settings_page.dart';
 import '../pages/profile_page.dart';
@@ -42,8 +40,8 @@ class _CircularMenuButtonState extends State<CircularMenuButton>
         //   addFriend(context);
         // }),
         buildButton(Icons.person_add_alt_sharp, () {
-           Navigator.push(context,
-              MaterialPageRoute(builder: (context) =>  FindFriendPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) =>  MatchFriendPage()));
         }),
         // buildButton(Icons.group_add, () {
         //   addCommunity(context);

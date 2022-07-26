@@ -29,6 +29,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
     await _firestore.collection('groups').doc(groupId).set({
       "members": widget.membersList,
       "id": groupId,
+      "name": _groupName.text,
     });
 
     for (int i = 0; i < widget.membersList.length; i++) {

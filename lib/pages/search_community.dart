@@ -18,12 +18,12 @@ class _SearchCommunityState extends State<SearchCommunity> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Map<String, dynamic>? communityMap;
-  Map<String, dynamic>? CurreentuserMap;
+  Map<String, dynamic>? CurrentUserMap;
   List membersList = [];
   bool isLoading = false;
 
   void getCurrentUserMap() {
-    CurreentuserMap ={'email':_auth.currentUser!.email,'name':_auth.currentUser!.displayName,'uid':_auth.currentUser!.uid,'isAdmin':false};
+    CurrentUserMap ={'email':_auth.currentUser!.email,'name':_auth.currentUser!.displayName,'uid':_auth.currentUser!.uid,'isAdmin':false};
   }
 
   void onSearch() async {
@@ -42,28 +42,35 @@ class _SearchCommunityState extends State<SearchCommunity> {
         communityMap = value.docs[0].data();
         isLoading = false;
       });
-      print(communityMap);
+      //print(communityMap);
     });
-    print(communityMap!['id'])
     getCurrentUserMap();
   }
 
   void onTap() async {
-    membersList.add(CurreentuserMap);
+      await _firestore
+          .collection('groups')
+          .doc(communityMap!['id'])
+          .get()
+          .then((chatMap) {
+        membersList = chatMap['members'];
+      });
+    membersList.add(CurrentUserMap);
 
-    // await _firestore.collection('groups').doc(widget.groupChatId).update({
-    //   "members": membersList,
-    // });
+    await _firestore.collection('groups').doc(communityMap!['id']).update({
+      "members": membersList,
+    });
 
-    //
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (_) => FriendChatPage(
-    //       chatRoomId: roomId,
-    //       userMap: userMap!,
-    //     ),
-    //   ),
-    // );
+    await _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('groups')
+        .doc(communityMap!['id'])
+        .set({"name": communityMap!['name'], "id": communityMap!['id']});
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const HomePage()
+    ));
+
   }
 
   @override
@@ -159,3 +166,4 @@ class _SearchCommunityState extends State<SearchCommunity> {
     );
   }
 }
+

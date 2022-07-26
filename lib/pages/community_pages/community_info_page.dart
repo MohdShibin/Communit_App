@@ -84,7 +84,7 @@ class _CommunityInfoPageState extends State<CommunityInfoPage> {
               return AlertDialog(
                 content: ListTile(
                   onTap: () => removeMembers(index),
-                  title: Text("Remove This Member"),
+                  title: const Text("Remove This Member"),
                 ),
               );
             });

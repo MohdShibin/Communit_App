@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           appBar: AppBar(
             title: const Text(
-              'A P P N A M E',
+              'MACE SPOT',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,

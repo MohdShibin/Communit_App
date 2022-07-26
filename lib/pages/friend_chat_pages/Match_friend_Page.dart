@@ -101,7 +101,7 @@ class _MatchFriendPageState extends State<MatchFriendPage>
     } 
     else 
     {
-      //IF the user doesnt have any group.
+      //TODO:IF the user doesnt have any group.
     }
 
     setState(() {

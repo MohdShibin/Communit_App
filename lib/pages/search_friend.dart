@@ -53,7 +53,7 @@ class _SearchFriendState extends State<SearchFriend>
 
     await _firestore
         .collection('users')
-        .where("email", isEqualTo: _search.text)
+        .where("email", isGreaterThanOrEqualTo: _search.text)
         .get()
         .then((value) {
       setState(() {

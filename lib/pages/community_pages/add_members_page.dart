@@ -36,7 +36,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
 
     await _firestore
         .collection('users')
-        .where("email", isEqualTo: _search.text)
+        .where("email", isGreaterThanOrEqualTo: _search.text)
         .get()
         .then((value) {
       setState(() {

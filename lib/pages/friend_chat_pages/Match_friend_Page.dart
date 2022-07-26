@@ -4,13 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-class FindFriendPage extends StatefulWidget {
+class MatchFriendPage extends StatefulWidget {
   @override
-  _FindFriendPageState createState() => _FindFriendPageState();
+  _MatchFriendPageState createState() => _MatchFriendPageState();
 }
 
-class _FindFriendPageState extends State<FindFriendPage>
-  with WidgetsBindingObserver {
+class _MatchFriendPageState extends State<MatchFriendPage>
+    with WidgetsBindingObserver {
   Map<String, dynamic>? userMap;
   bool isLoading = false;
   final TextEditingController _search = TextEditingController();
@@ -48,16 +48,64 @@ class _FindFriendPageState extends State<FindFriendPage>
       isLoading = true;
     });
 
+    List communityListMap = [];
     await _firestore
         .collection('users')
-        .where("email", isEqualTo: _search.text)
+        .doc(_auth.currentUser!.uid)
+        .collection('groups')
         .get()
         .then((value) {
-      setState(() {
-        userMap = value.docs[0].data();
-        isLoading = false;
+      communityListMap = value.docs;
+    });
+    List communityList = [];
+    String? matchedUser;
+
+    if (communityListMap.isNotEmpty) {
+      for (int i = 0; i < communityListMap.length; i++) {
+        communityList.add(communityListMap[i]['id']);
+      }
+      List communityDataList = [];
+      var friendMatchMap = Map();
+      int matchedCount = 0;
+      for (int i = 0; i < communityList.length; i++) {
+        await _firestore.collection('groups').get().then((value) {
+          communityDataList = value.docs;
+        });
+        for (int j = 0; j < communityDataList[i]['members'].length; j++) {
+          String name = communityDataList[i]['members'][j]['name'];
+          if (name != _auth.currentUser!.displayName) {
+            if (!friendMatchMap.containsKey(name)) {
+              friendMatchMap[name] = 1;
+            } else {
+              friendMatchMap[name] += 1;
+            }
+            if (friendMatchMap[name] > matchedCount) {
+              matchedCount = friendMatchMap[name];
+              matchedUser = name;
+            }
+          }
+        }
+      }
+      //finding matched user
+
+      await _firestore
+          .collection('users')
+          .where("name", isEqualTo: matchedUser)
+          .get()
+          .then((value) {
+        setState(() {
+          userMap = value.docs[0].data();
+        });
+        print(userMap);
       });
-      print(userMap);
+    } 
+    else 
+    {
+      //IF the user doesnt have any group.
+    }
+
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -147,30 +195,12 @@ class _FindFriendPageState extends State<FindFriendPage>
                 SizedBox(
                   height: size.height / 20,
                 ),
-                Container(
-                  height: size.height / 14,
-                  width: size.width,
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: size.height / 14,
-                    width: size.width / 1.15,
-                    child: TextField(
-                      controller: _search,
-                      decoration: InputDecoration(
-                        hintText: "Search",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: size.height / 50,
                 ),
                 ElevatedButton(
                   onPressed: onSearch,
-                  child: const Text("Search"),
+                  child: const Text("F I N D"),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.deepOrangeAccent,
                   ),

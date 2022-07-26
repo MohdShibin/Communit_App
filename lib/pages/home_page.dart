@@ -1,3 +1,4 @@
+import 'package:community_app/pages/search_friend.dart';
 import 'package:community_app/pages/friend_chat_pages/friend_chat_list_page.dart';
 import '../../components/circular_menu_button.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,15 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: (){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => SearchFriend()
+                  ));},
+                icon: const Icon(Icons.search,color: Colors.black),
+              ),
+            ],
             backgroundColor: Colors.white,
             centerTitle: true,
             elevation: 0.0,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:community_app/models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Vertex {
   String userID;

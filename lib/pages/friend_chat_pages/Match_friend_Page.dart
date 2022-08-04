@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:community_app/models/user_model.dart';
 import 'package:community_app/pages/friend_chat_pages/friend_chat_page.dart';
+import 'package:community_app/services/match_making.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -17,28 +19,40 @@ class _MatchFriendPageState extends State<MatchFriendPage>
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addObserver(this);
-    setStatus("Online");
+
+  Future<Map<String, dynamic>?> getSpecificUser(UserModel userModel) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    User? currentUser = _auth.currentUser;
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    print("Getting matched user data ----------------\n\n");
+
+    final doc = await _firestore.collection('users').doc(userModel.uid).get();
+    final map = doc.data();
+    return map;
+
+    // UserModel user = UserModel(
+    //     email: doc['email'], uid: doc['uid'], interest: doc['interest']);
+
+    // return user;
   }
 
-  void setStatus(String status) async {
-    await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
-      "status": status,
+  void onButtonPressed() async {
+    setState(() {
+      isLoading = true;
     });
-  }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      // online
-      setStatus("Online");
-    } else {
-      // offline
-      setStatus("Offline");
-    }
+    UserModel matchedUser = await mainMatch();
+    //TODO get specific user info
+    final map = await getSpecificUser(matchedUser);
+
+    setState(() {
+      userMap = map;
+    });
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void onSearch() async {
@@ -98,10 +112,8 @@ class _MatchFriendPageState extends State<MatchFriendPage>
         });
         print(userMap);
       });
-    } 
-    else 
-    {
-      //IF the user doesnt have any group.
+    } else {
+      //TODO IF the user doesnt have any group.
     }
 
     setState(() {
@@ -199,7 +211,12 @@ class _MatchFriendPageState extends State<MatchFriendPage>
                   height: size.height / 50,
                 ),
                 ElevatedButton(
-                  onPressed: onSearch,
+                  // onPressed: onSearch,
+                  onPressed: () {
+                    print("find match working..");
+                    // mainMatch();
+                    onButtonPressed();
+                  },
                   child: const Text("F I N D"),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.deepOrangeAccent,

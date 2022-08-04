@@ -1,31 +1,24 @@
 class UserModel {
   String uid;
   String email;
-  String batch;
-  String department;
-  String name;
-  String photoUrl;
-  int randomID;
-  String about;
-  bool isMatched;
-  String currentMatch;
-  String chatRoomID;
-  List<String> interest;
-  Map<String, String>? costFactor;
+  Map<String, dynamic> interest;
+  Map<String, int>? costFactor;
+  int? tempCostFactor;
 
   UserModel({
-    required this.name,
-    required this.department,
-    required this.photoUrl,
-    required this.batch,
     required this.email,
-    required this.randomID,
-    required this.about,
-    required this.isMatched,
     required this.uid,
-    required this.currentMatch,
-    required this.chatRoomID,
     required this.interest,
-    required this.costFactor,
+    this.costFactor,
+    this.tempCostFactor,
   });
+
+  // using factory to create an instance of UserModel
+  factory UserModel.fromMap(Map data) {
+    return UserModel(
+      email: data['email'],
+      uid: data['uid'],
+      interest: data['interest'],
+    );
+  }
 }
